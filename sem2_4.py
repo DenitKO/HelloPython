@@ -1,20 +1,16 @@
 # Задайте список из N элементов, заполненных числами из промежутка [-N, N]. 
 # Найдите произведение элементов на указанных позициях.
 # Позиции хранятся в файле file.txt в одной строке одно число.
-
+print('')
 n = int(input('введите целое, положительное число '))
 print()
 
-l = []
-# list_from_file = input(C:\GB\HelloPython\file2_4.txt)
-for i in range(0, n):
-    l.append(-n+i)
-l.append(int(0))
-for i in range(n+1, 1+n*2):
-    l.append(i-n)
-for i in range(0, 1+n*2):
-    print(f'l[{i}] = {l[i]}')
-print()
+new_list = []
+for i in range(-n, n+1):
+    new_list.append(i)
+for i in range(0, n*2+1):
+    print(f'{new_list[i]},', end=' ')
+print('\n')
 
 numbers_from_file = []
 
@@ -33,8 +29,9 @@ if len(numbers_from_file) == 0:
 else:
     while j != len(numbers_from_file):
         if j == 0:
-            product_of_list = l[numbers_from_file[0]]
+            product_of_list = new_list[numbers_from_file[0]]
         else:
-            product_of_list = product_of_list * l[numbers_from_file[j]]
+            product_of_list = product_of_list * new_list[numbers_from_file[j]]
         j = j + 1
     print(f'Произведение элементов = {product_of_list}')
+    print('')
