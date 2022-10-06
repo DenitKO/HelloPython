@@ -51,56 +51,67 @@
 
 
 # Инвертирование целых чисел
-# original = 123456789
-# inverted = 0
-# while original != 0:
-#     inverted = inverted * 10 + (original % 10)
-#     original //= 10
-#     print(original)
-# else:
-#     print('Пожалуй')
-#     print('Хватит')
-# print(inverted)
+original = 123456789
+inverted = 0
+while original != 0:
+    inverted = inverted * 10 + (original % 10)
+    original //= 10
+    print(original)
+else:
+    print('Пожалуй')
+    print('Хватит')
+print(inverted)
 
 # Управляющие конструкции:
 # for
 
 # 1 Стандартный for
-# for i in 1,2,3,4,5:
-#     print(i**2)
+for i in 1,2,3,4,5:
+    print(i**2)
 
 # 2 список в for
-# list = [1,2,3,10,5]
-# for i in list:
-#     print(i)
+list = [1,2,3,10,5]
+for i in list:
+    print(i)
 
 # 3 range в for
-# r = range(10)
-# for i in r:
-#     print(i)
+r = range(10)
+for i in r:
+    print(i)
 
 # 4 или можно укаазать range внутри for
-# for i in range(10):
-#     print(i)
+for i in range(10):
+    print(i)
 
 # 5 можно явно указывать от и до
-# for i in range(1, 5):
-#     print(i)
+for i in range(1, 5):
+    print(i)
 
 # 6 можно явно указывать от 1 до 6 с шагом 2
-# for i in range(1, 6, 2):
-#     print(i)
+for i in range(1, 6, 2):
+    print(i)
 
-# text = "съешь еще этих мягких французских булок"
+text = "съешь еще этих мягких французских булок"
 
 
-# help(text.istitle)
+help(text.istitle)
 
-# print(len(text))                    # 39
-# print('еще' in text)                # True
-# print(text.isdigit)                 # False
-# print(text.islower)                 # True
-# print(text.replace('еще' , 'ЕЩЕ'))  #
+print(len(text))                    # 39
+print('еще' in text)                # True
+print(text.isdigit)                 # False
+print(text.islower)                 # True
+print(text.replace('еще' , 'ЕЩЕ'))  #
 
-# for c in text:
-#     print(c)
+for c in text:
+    print(c)
+
+
+# Функции
+
+def f(x):
+    if x == 1:
+        return 'Целое'
+    elif x == 2.3:
+        return 23
+    else:
+        return
