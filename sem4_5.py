@@ -8,93 +8,76 @@
 # Результат:
 # 40x⁹ - x⁸ -5x⁷ + 15x⁶ +5x⁴ + 5x³ + x² - 13x¹ + 53 = 0
 
-from functools import reduce
-from random import randint as rI
 
+from random import randint as rI
 
 def write_file(st, path):
     with open(path, 'w') as data:
         data.write(st)
 
-
-def create_сoef(k):
-    new_list = [rI(-100, 101) for i in range(k+1)]
-    return new_list
-
-
-def create_str(k, koef_list):
-    count = 0
-    dictionary = {}
-    str_to_file = ''
-    for i in koef_list:
-        dictionary[count] = i
-        count += 1
-    for i in range(k, -1, -1):
-        if dictionary.get(i) == 0:
-            dictionary.pop(i)
-        elif i == k:
-            if dictionary.get(i) < 0:
-                str_to_file += f'- {(-1)*dictionary.get(i)}x^{i}'
-            else:
-                str_to_file += f'{dictionary.get(i)}x^{i}'
-        elif dictionary.get(i) > 0:
-            str_to_file += ' + '
-
-        if i == 0:
-            if dictionary.get(i) < 0:
-                str_to_file += f' - {(-1)*dictionary.get(i)}'
-            else:
-                str_to_file += str(dictionary.get(i))
-
-        if i != k and i != 0 and dictionary.get(i) != None:
-            if dictionary.get(i) < 0:
-                str_to_file += f' - {(-1)*dictionary.get(i)}x^{i}'
-            else:
-                str_to_file += f'{dictionary.get(i)}x^{i}'
-    str_to_file += ' = 0'
-    return str_to_file
-
-
-k = int(input("Введите натуральную степень k = "))
-koef_list_1 = create_сoef(k)
-koef_list_2 = create_сoef(k)
-str_to_file1 = create_str(k, koef_list_1)
-str_to_file2 = create_str(k, koef_list_2)
-path1 = 'file4_5_1.txt'
-path2 = 'file4_5_2.txt'
-write_file(str_to_file1, path1)
-write_file(str_to_file2, path2)
-
-
 def read_file(path):
     with open(path, 'r') as data:
         return data.read()
 
+def createCoef():
+    coef = {}
+    degree = int(input("Введите максимальную степень: "))
+    for i in range(degree, -1, -1):
+        coef[i] = rI(-20,20)
 
-from_file1 = read_file(path1)
-from_file2 = read_file(path2)
-count = 0
-print(from_file1)
-print(from_file2)
-new_file1 = from_file1.rstrip()
-from_file1 =  reduce(lambda x,y: x + y, new_file1)
-new_file2 = from_file2.rstrip()
-from_file2 =  reduce(lambda x,y: x + y, new_file2)
-print(from_file1)
-print(from_file2)
-from_file1 = from_file1.split('=')
-from_file1 = from_file1[0]
-from_file2 = from_file2.split('=')
-from_file2 = from_file2[0]
-print(from_file1)
-print(from_file2)
-new_file1 = from_file1.rstrip()
-from_file1 =  reduce(lambda x,y: x + y, new_file1)
-new_file2 = from_file2.rstrip()
-from_file2 =  reduce(lambda x,y: x + y, new_file2)
-print(from_file1)
-print(from_file2)
-from_file1 = from_file1.split(' ')
-from_file2 = from_file2.split(' ')
-print(from_file1)
-print(from_file2)
+    return coef
+
+
+def createEquation(coef_list: dict):
+    equation = ''
+    first = True
+
+    for i in coef_list.items():
+        if first:
+            first = False
+            if i[1] < 0:
+                equation += ' -' + str(abs(i[1])) + 'x^' + str(i[0])
+            elif i[1] > 0:
+                equation += str(abs(i[1])) + 'x^' + str(i[0])
+        else:
+            if i[1] < 0:
+                equation += ' - ' + str(abs(i[1])) + 'x^' + str(i[0])
+            elif i[1] > 0:
+                equation += ' + ' + str(abs(i[1])) + 'x^' + str(i[0])
+
+    return equation + ' = 0'
+
+
+def parseEquation(equation: str):
+    
+    equation = equation.replace(' + ', ' +').replace(' - ', ' -').replace(' = 0', '')
+    equation = equation.split()
+
+    dictEquation = {}
+    for i in range(len(equation)):
+        equation[i] = equation[i].replace('+','').split('x^')
+        dictEquation[int(equation[i][1])] = int(equation[i][0])
+    return dictEquation
+
+path1 = 'file4_5_1.txt'
+path2 = 'file4_5_2.txt'
+write_file(createEquation(createCoef()), path1)
+write_file(createEquation(createCoef()), path2)
+
+parEq1 = parseEquation(read_file(path1))
+parEq2 = parseEquation(read_file(path2))
+
+def sumOfDictionaries (parEq1, parEq2):
+    resEquation = {}
+    for i in range(max(len(parEq1), len(parEq2)), -1, -1):
+        first = parEq1.get(i)
+        second = parEq2.get(i)
+        if first != None or second != None:
+            resEquation[i] = (first if first != None else 0) + (second if second != None else 0)
+    return resEquation
+
+# print(read_file(path1))
+# print(read_file(path2))
+# print(createEquation(parEq1))
+# print(createEquation(parEq2))
+print(createEquation(sumOfDictionaries(parEq1,parEq2)).replace('x^1', 'x').replace('x^0', ''))
