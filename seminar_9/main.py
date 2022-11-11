@@ -5,9 +5,9 @@ from PyQt6.QtGui import QIcon
 from ui import Ui_MainWindow
 from pytube import YouTube
 
-class CurrencyConv(QtWidgets.QMainWindow):
+class DownloadYouTube(QtWidgets.QMainWindow):
     def __init__(self):
-        super(CurrencyConv, self).__init__()
+        super(DownloadYouTube, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.init_UI()
@@ -37,7 +37,7 @@ class CurrencyConv(QtWidgets.QMainWindow):
     def download_image(self):
         link = self.url[int(self.url.find('='))+1:]
         image_bytes = requests.get(f'https://i.ytimg.com/vi/{link}/maxresdefault.jpg').content
-        with open('img\sddefault.jpg', 'wb') as file:
+        with open('img/sddefault.jpg', 'wb') as file:
             file.write(image_bytes)
     
     def check(self):
@@ -46,10 +46,10 @@ class CurrencyConv(QtWidgets.QMainWindow):
             my_video = YouTube(self.url)
             self.ui.video_title.setPlaceholderText(my_video.title)
             self.download_image()
-            self.ui.video_capture.setPixmap(QtGui.QPixmap('img\sddefault.jpg'))
+            self.ui.video_capture.setPixmap(QtGui.QPixmap('img/sddefault.jpg'))
             self.ui.video_capture.setScaledContents(True)
-        except Exception:
-            pass
+        except Exception as error:
+            print(error)
                 
 
     def select(self):
@@ -64,7 +64,7 @@ class CurrencyConv(QtWidgets.QMainWindow):
 
 def main():
         app = QtWidgets.QApplication([])
-        application = CurrencyConv()
+        application = DownloadYouTube()
         application.show()
         sys.exit(app.exec())
 
