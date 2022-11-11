@@ -17,7 +17,7 @@ class DownloadYouTube(QtWidgets.QMainWindow):
         self.progress(0)
         self.url = ''
         self.setWindowTitle('YouTube Скачивалка')
-        self.setWindowIcon(QIcon('img\icon.png'))
+        self.setWindowIcon(QIcon('img/icon.png'))
         self.ui.input_folder_btn.clicked.connect(self.select)
         self.ui.save_in_Btn.clicked.connect(self.download_video)
         self.ui.check_btn.clicked.connect(self.check)
@@ -35,9 +35,11 @@ class DownloadYouTube(QtWidgets.QMainWindow):
 
     
     def download_image(self):
-        link = self.url[int(self.url.find('='))+1:]
+        link = self.url[int(self.url.find('?'))+3:]
+        if link.find('=') > 11:
+            link = link[:11]
         image_bytes = requests.get(f'https://i.ytimg.com/vi/{link}/maxresdefault.jpg').content
-        with open('img/sddefault.jpg', 'wb') as file:
+        with open(f'{__file__[:-7]}img\sddefault.jpg', 'wb') as file:
             file.write(image_bytes)
     
     def check(self):
@@ -46,7 +48,7 @@ class DownloadYouTube(QtWidgets.QMainWindow):
             my_video = YouTube(self.url)
             self.ui.video_title.setPlaceholderText(my_video.title)
             self.download_image()
-            self.ui.video_capture.setPixmap(QtGui.QPixmap('img/sddefault.jpg'))
+            self.ui.video_capture.setPixmap(QtGui.QPixmap(f'{__file__[:-7]}img\sddefault.jpg'))
             self.ui.video_capture.setScaledContents(True)
         except Exception as error:
             print(error)
